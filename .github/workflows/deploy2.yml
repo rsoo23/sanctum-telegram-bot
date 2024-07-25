@@ -19,12 +19,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Cocos Creator Build
-        uses: miggene/cocos-build@v1.2.3
-        with:
-            cocos_version: 3.2.0
-            project_path: ./Game
-            build_path: ./Game/build
+      - name: Download and unzip Cocos Creator
+        run: |
+          curl -o CocosCreator.zip https://sanctum.s3.ap-southeast-1.amazonaws.com/CocosCreator.zip
+          unzip -q CocosCreator.zip -d /Applications
+          ls /Applications/CocosCreator.app
+
+      - name: Build Cocos Creator project
+        run: |
+          /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./Game/ --build "platform=web-mobile;startScene=roulette_page.scene"
     
       # aws credentials
       - name: Configure AWS credentials
