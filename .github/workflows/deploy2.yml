@@ -32,22 +32,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
-
-      - name: Amplify CLI Deploy Action
-        uses: cordobeces/amplify-cli-action@v1.0.0
-        with:
-          env: dev
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
     
       - name: Notify on Discord
         if: always()
         run: |
           if [ "${{ job.status }}" == "success" ]; then
-            message="Build succeeded";
+            message="[sanctum-telegram-game] [build_prod] succeeded";
           else
-            message="Build failed";
+            message="[sanctum-telegram-game] [build_prod] failed";
           fi
           curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"${message}\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
