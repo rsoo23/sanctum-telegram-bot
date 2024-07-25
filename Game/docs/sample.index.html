@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-52HBK77Y32"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-52HBK77Y32"); // staging
+      // gtag("config", "G-1EYNK6R4B4"); // production
+    </script>
+    <meta charset="utf-8" />
+
+    <title>Sanctum Telegram Game</title>
+    <script>
+      // Set the environment variable
+      window.ENV = "staging"; // Change this to 'local', 'staging', or 'production' as needed
+    </script>
+    <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+    <meta
+      name="viewport"
+      content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1,minimal-ui=true"
+    />
+
+    <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- force full screen on some browser -->
+    <meta name="full-screen" content="yes" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+
+    <!--fix fireball/issues/3568 -->
+    <!--<meta name="browsermode" content="application">-->
+    <meta name="x5-page-mode" content="app" />
+
+    <!--<link rel="apple-touch-icon" href=".png" />-->
+    <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="GameDiv" cc_exact_fit_screen="true">
+      <div id="Cocos3dGameContainer">
+        <canvas
+          id="GameCanvas"
+          oncontextmenu="event.preventDefault()"
+          tabindex="99"
+        ></canvas>
+      </div>
+    </div>
+
+    <!-- Polyfills bundle. -->
+
+    <script src="src/polyfills.bundle.js" charset="utf-8"></script>
+
+    <!-- SystemJS support. -->
+    <script src="src/system.bundle.js" charset="utf-8"></script>
+
+    <!-- Import map -->
+    <script
+      src="src/import-map.json"
+      type="systemjs-importmap"
+      charset="utf-8"
+    ></script>
+    <script src="cocos-js/cc.js"></script>
+    <script>
+      System.import("./index.js").catch(function (err) {
+        console.error(err);
+      });
+    </script>
+
+    <script>
+      function onCocosLoaded() {
+        function preloadScene(sceneName, callback) {
+          console.log("Preloading scene:", sceneName);
+          cc.director.preloadScene(sceneName, (err) => {
+            if (err) {
+              console.error("Failed to preload scene:", sceneName, err);
+            } else {
+              console.log("Scene preloaded successfully:", sceneName);
+              if (callback) callback();
+            }
+          });
+        }
+
+        function loadScene(sceneName) {
+          console.log("Attempting to load scene:", sceneName);
+          cc.director.loadScene(sceneName, (err) => {
+            if (err) {
+              console.error("Failed to load scene:", sceneName, err);
+            } else {
+              console.log("Scene loaded successfully:", sceneName);
+            }
+          });
+        }
+
+        function getHashPath() {
+          const hash = window.location.hash;
+          console.log("Current hash:", hash);
+          const hashWithoutQuery = hash.split("?")[0];
+          return hashWithoutQuery.substring(2);
+        }
+
+        function checkHash() {
+          const sceneId = getHashPath();
+
+          const sceneMap = {
+            roulette: "assets/scenes/roulette_page",
+            referral: "assets/scenes/referral_page",
+          };
+
+          let scenePath = sceneMap[sceneId];
+          let sceneLoaded = false;
+
+          if (scenePath) {
+            const currentScene = cc.director.getScene();
+            if (
+              currentScene &&
+              currentScene._name === sceneMap[sceneId].split("/").pop()
+            ) {
+              sceneLoaded = true;
+            }
+
+            if (!sceneLoaded) {
+              preloadScene(scenePath, () => {
+                loadScene(scenePath);
+              });
+            } else {
+              console.log(`Scene ${scenePath} is already loaded`);
+            }
+          } else {
+            console.warn("No valid scene path found in hash");
+          }
+        }
+
+        console.log("Performing initial hash check");
+        checkHash();
+
+        window.addEventListener("hashchange", checkHash);
+      }
+
+      function ensureCocosLoaded() {
+        if (typeof cc !== "undefined" && cc.game) {
+          if (cc.director.getScene()) {
+            onCocosLoaded();
+          }
+        } else {
+          console.log("Waiting for Cocos Creator to load...");
+          const checkCocosLoaded = setInterval(() => {
+            if (typeof cc !== "undefined" && cc.game) {
+              if (cc.director.getScene()) {
+                clearInterval(checkCocosLoaded);
+                onCocosLoaded();
+              }
+            }
+          }, 100);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ensureCocosLoaded);
+    </script>
+  </body>
+</html>

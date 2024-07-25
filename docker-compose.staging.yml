@@ -1,0 +1,65 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.9
+    container_name: "traefik"
+    restart: always
+    command:
+      - "--accesslog=true"
+      - "--accesslog.filepath=/traefik/logs/access.log"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=hello@elvtd.io"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - sanctum_tg
+
+  backend:
+    build:
+      context: ./django_app
+      dockerfile: Dockerfile
+    volumes:
+      - ./django_app/app:/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mb-frontend.rule=Host(`sanctum-staging.elvtd.io`)"
+      - "traefik.http.routers.mb-frontend.tls.certresolver=myresolver"
+      - "traefik.http.services.mb-frontend.loadbalancer.server.port=8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - sanctum_tg
+
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    volumes:
+      - ./bot/app:/app
+      - ./bot/assets:/assets
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    networks:
+      - sanctum_tg
+
+networks:
+  sanctum_tg:

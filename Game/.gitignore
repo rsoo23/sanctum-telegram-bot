@@ -1,0 +1,25 @@
+
+#///////////////////////////
+# Cocos Creator 3D Project
+#///////////////////////////
+library/
+temp/
+local/
+build/
+profiles/
+.creator/asset-template/.DS_Store
+.DS_Store
+#//////////////////////////
+# NPM
+#//////////////////////////
+node_modules/
+
+# Ignore environment-specific files
+.env
+
+env.local.json
+env.staging.json
+env.production.json
+env.local.json.meta
+env.staging.json.meta
+env.production.json.meta

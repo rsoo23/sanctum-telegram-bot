@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.26",
+  "importer": "image",
+  "imported": true,
+  "uuid": "c410c3ff-aa65-4007-ad9b-57e0641251e7",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "c410c3ff-aa65-4007-ad9b-57e0641251e7@6c48a",
+      "displayName": "gun_barrel",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "c410c3ff-aa65-4007-ad9b-57e0641251e7",
+        "isUuid": true,
+        "visible": false,
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "c410c3ff-aa65-4007-ad9b-57e0641251e7@f9941",
+      "displayName": "gun_barrel",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": -1,
+        "trimX": 137,
+        "trimY": 138,
+        "width": 226,
+        "height": 226,
+        "rawWidth": 500,
+        "rawHeight": 500,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -113,
+            -113,
+            0,
+            113,
+            -113,
+            0,
+            -113,
+            113,
+            0,
+            113,
+            113,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            137,
+            362,
+            363,
+            362,
+            137,
+            136,
+            363,
+            136
+          ],
+          "nuv": [
+            0.274,
+            0.272,
+            0.726,
+            0.272,
+            0.274,
+            0.724,
+            0.726,
+            0.724
+          ],
+          "minPos": [
+            -113,
+            -113,
+            0
+          ],
+          "maxPos": [
+            113,
+            113,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c410c3ff-aa65-4007-ad9b-57e0641251e7@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "fixAlphaTransparencyArtifacts": false,
+    "redirect": "c410c3ff-aa65-4007-ad9b-57e0641251e7@f9941"
+  }
+}

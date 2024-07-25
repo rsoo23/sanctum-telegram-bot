@@ -1,0 +1,50 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sanctum_tg
+
+  backend:
+    build:
+      context: ./django_app
+      dockerfile: Dockerfile
+    volumes:
+      - ./django_app/app:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - sanctum_tg
+
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    volumes:
+      - ./bot/app:/app
+      - ./bot/assets:/assets
+    depends_on:
+      - db
+      - backend
+    env_file:
+      - .env
+    networks:
+      - sanctum_tg
+
+volumes:
+  postgres_data:
+
+networks:
+  sanctum_tg:
