@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Cocos Creator project
         run: |
-          /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./Game/ --build "platform=web-mobile;startScene=roulette_page.scene"
+          /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./Game --build "platform=web-mobile;startScene=roulette_page.scene"
     
       # aws credentials
       - name: Configure AWS credentials
