@@ -12,6 +12,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     env:
+      ENV: staging
       GA_ID: ${{ secrets.GA_ID }}
 
     steps:
@@ -27,6 +28,9 @@ jobs:
         run: |
           /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --project ./Game --build "platform=web-mobile;buildPath=./Game/build;name=sanctum-telegram-game;platform=web-mobile;startScene=27507cdc-65b2-429e-8af5-395ac1f19b0e;replaceSplashScreen=true;debug=false"
         continue-on-error: true
+
+      - name: Inject Google Analytics into index.html
+        run: |
     
       # aws credentials
       - name: Configure AWS credentials
