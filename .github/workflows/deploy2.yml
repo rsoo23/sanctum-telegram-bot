@@ -31,8 +31,8 @@ jobs:
 
       - name: Inject Google Analytics into index.ejs
         run: |
-          chmod +x ./inject_ga.sh
-          ./inject_ga.sh
+          chmod +x ./cicd_scripts/inject_ga.sh
+          ./cicd_scripts/inject_ga.sh
         
       # aws credentials
       - name: Configure AWS credentials
