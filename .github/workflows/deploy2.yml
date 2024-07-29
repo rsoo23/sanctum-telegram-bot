@@ -31,7 +31,9 @@ jobs:
 
       - name: Inject Google Analytics into index.html
         run: |
-    
+          chmod +x ./inject_ga.sh
+          ./inject_ga.sh
+        
       # aws credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
