@@ -1,4 +1,3 @@
-
 name: CI/CD Workflow
 
 on:
@@ -23,7 +22,6 @@ jobs:
         run: |
           curl -o CocosCreator.zip https://sanctum.s3.ap-southeast-1.amazonaws.com/CocosCreator.zip
           unzip -q CocosCreator.zip -d /Applications
-          ls /Applications/CocosCreator.app
 
       - name: Build Cocos Creator project
         run: |
