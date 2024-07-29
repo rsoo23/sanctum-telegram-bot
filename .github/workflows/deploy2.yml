@@ -7,12 +7,12 @@ on:
     - main
 
 jobs:
-  build_staging:
+  build_prod:
     runs-on: macos-latest
     if: github.ref == 'refs/heads/main'
 
     env:
-      ENV: staging
+      ENV: production
       GA_ID: ${{ secrets.GA_ID }}
 
     steps:
@@ -41,8 +41,8 @@ jobs:
           path: ./Game/build-templates/web-mobile/index.ejs
           error: "./Game/build-templates/web-mobile/index.ejs not found"
 
-  upload_staging_to_amplify:
-    needs: build_staging
+  deploy_prod_to_amplify:
+    needs: build_prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
