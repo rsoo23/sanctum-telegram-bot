@@ -4,13 +4,13 @@
 FILE="Game/build-templates/web-mobile/index.ejs"
 
 # Check the environment variable
-# if [ "$ENV" == "production" ]; then
-#   GA_ID=$GA_ID_PRODUCTION
-# else
-#   GA_ID=$GA_ID_STAGING
-# fi
+if [ "$ENV" == "production" ]; then
+  # GA_ID=$GA_ID_PRODUCTION
+  sed -i '' "s/G-XXXXXXXXXX/$GA_ID/g" $FILE
+else
+  # GA_ID=$GA_ID_STAGING
+  sed -i '' "s/G-XXXXXXXXXX/$GA_ID/g" $FILE
+fi
 
-# Replace the placeholders with the actual Google Analytics ID
-sed -i '' "s/G-XXXXXXXXXX/$GA_ID/g" $FILE
 
-echo "Injected Google Analytics ID ($GA_ID) into index.html"
+echo "Injected Google Analytics ID ($GA_ID) into index.ejs"
