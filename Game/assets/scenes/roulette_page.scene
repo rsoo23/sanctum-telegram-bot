@@ -7894,7 +7894,7 @@
     "_string": "ROULETTE",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 12,
+    "_actualFontSize": 14.35,
     "_fontSize": 12,
     "_fontFamily": "Arial",
     "_lineHeight": 12.59,
@@ -8214,7 +8214,7 @@
     "_string": "REFERRAL",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 12,
+    "_actualFontSize": 14.35,
     "_fontSize": 12,
     "_fontFamily": "Arial",
     "_lineHeight": 12.59,
@@ -8534,7 +8534,7 @@
     "_string": "LEADERBOARD",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 12,
+    "_actualFontSize": 14.35,
     "_fontSize": 12,
     "_fontFamily": "Arial",
     "_lineHeight": 12.59,
@@ -9622,8 +9622,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 28.21197509765625,
-      "height": 50.4
+      "width": 28.211984667628485,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -9655,7 +9655,7 @@
     "_string": " min",
     "_horizontalAlign": 2,
     "_verticalAlign": 1,
-    "_actualFontSize": 12,
+    "_actualFontSize": 14.35,
     "_fontSize": 12,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -12151,14 +12151,6 @@
         "__expectedType__": "cc.AnimationClip"
       },
       {
-        "__uuid__": "efe5541c-bf11-400f-bc4c-610a25fad512",
-        "__expectedType__": "cc.AnimationClip"
-      },
-      {
-        "__uuid__": "8a51fbb9-6bb8-47fc-8397-0345160fc534",
-        "__expectedType__": "cc.AnimationClip"
-      },
-      {
         "__uuid__": "b1e15d1d-bca7-4ffb-9761-accf668d02c3",
         "__expectedType__": "cc.AnimationClip"
       }
@@ -12342,7 +12334,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 82.03997802734375,
+      "width": 82.01711196101917,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -12375,7 +12367,7 @@
     "_string": "AMOUNT",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 23.916666666666664,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -12703,7 +12695,7 @@
     "_string": "1000",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 18,
+    "_actualFontSize": 21.525,
     "_fontSize": 18,
     "_fontFamily": "Arial",
     "_lineHeight": 20,
@@ -13152,7 +13144,7 @@
     "_string": "SPIN AND SHOOT",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 18,
+    "_actualFontSize": 21.525,
     "_fontSize": 18,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -13387,7 +13379,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 123.67996215820312,
+      "width": 123.64545762331228,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -13420,7 +13412,7 @@
     "_string": "HOW TO PLAY",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 23.916666666666664,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 20,
@@ -13817,8 +13809,8 @@
     ],
     "value": {
       "__type__": "cc.Size",
-      "width": 44.35194396972656,
-      "height": 50.4
+      "width": 44.35194700021777,
+      "height": 50.400000000000006
     }
   },
   {
@@ -13837,7 +13829,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -52.82402801513672,
+      "x": -52.82402649989112,
       "y": 0,
       "z": 0
     }
@@ -13858,7 +13850,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -1.0420684814453125,
+      "x": -1.0420798059124614,
       "y": 0,
       "z": 0
     }
@@ -13895,8 +13887,8 @@
     ],
     "value": {
       "__type__": "cc.Size",
-      "width": 43.21197509765625,
-      "height": 50.4
+      "width": 43.211946387739545,
+      "height": 50.400000000000006
     }
   },
   {
@@ -13931,8 +13923,8 @@
     ],
     "value": {
       "__type__": "cc.Size",
-      "width": 66.9359130859375,
-      "height": 50.4
+      "width": 66.93593307654616,
+      "height": 50.400000000000006
     }
   },
   {
