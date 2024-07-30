@@ -71,26 +71,6 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  
-      # - name: configure amplify
-      #   uses: ambientlight/amplify-cli-action@0.3.0
-      #   with:
-      #     amplify_command: configure
-      #     amplify_env: prod
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: us-east-1
-
-      # - name: deploy
-      #   uses: ambientlight/amplify-cli-action@0.3.0
-      #   with:
-      #     amplify_command: publish
-      #     amplify_env: prod
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: us-east-1
           
       # discord
       - name: Notify on Discord
@@ -102,3 +82,79 @@ jobs:
             message="[sanctum-telegram-game] [build_prod] failed";
           fi
           curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"${message}\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  build_staging:
+      runs-on: macos-latest
+      if: github.ref == 'refs/heads/dev'
+  
+      env:
+        ENV: staging
+        GA_ID_STAGING: ${{ secrets.GA_ID_STAGING }}
+  
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v2
+  
+        - name: Download and unzip Cocos Creator
+          run: |
+            curl -o CocosCreator.zip https://sanctum.s3.ap-southeast-1.amazonaws.com/CocosCreator.zip
+            unzip -q CocosCreator.zip -d /Applications
+  
+        - name: Build Cocos Creator project
+          run: |
+            /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --project ./Game --build "platform=web-mobile;buildPath=./Game/build;name=sanctum-telegram-game;platform=web-mobile;startScene=27507cdc-65b2-429e-8af5-395ac1f19b0e;replaceSplashScreen=true;debug=false"
+          continue-on-error: true
+  
+        - name: Inject Google Analytics into index.ejs
+          run: |
+            chmod +x ./cicd_scripts/inject_ga.sh
+            ./cicd_scripts/inject_ga.sh
+  
+        - name: Upload build artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: staging_build
+            path: ./Game
+            error: "Error uploading ./Game"
+
+  deploy_staging_to_amplify:
+      needs: build_staging
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/dev'
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Download build artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: staging_build
+        
+        - name: Setup Node.js environment
+          uses: actions/setup-node@v4.0.3
+  
+        - name: Update npm to the latest version
+          run: npm install -g npm@latest
+  
+        - name: Deploy to amplify using amplify-cli
+          run: | 
+            npm install -g @aws-amplify/cli
+            amplify init \
+              --frontend "{\"frontend\":\"javascript\",\"framework\":\"none\",\"config\":{\"SourceDir\":\"src\",\"DistributionDir\":\"dist\",\"BuildCommand\":\"npm run-script build\",\"StartCommand\":\"npm run-script start\"}}" \
+              --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" \
+              --yes
+            amplify push --yes
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            
+        # discord
+        - name: Notify on Discord
+          if: always()
+          run: |
+            if [ "${{ job.status }}" == "success" ]; then
+              message="[sanctum-telegram-game] [build_staging] succeeded";
+            else
+              message="[sanctum-telegram-game] [build_staging] failed";
+            fi
+            curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"${message}\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
