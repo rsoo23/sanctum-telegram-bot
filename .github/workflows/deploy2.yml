@@ -44,6 +44,7 @@ jobs:
   deploy_prod_to_amplify:
     needs: build_prod
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -56,34 +57,37 @@ jobs:
       
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.3
-                
-      # aws credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-1
-      
-      - name: configure amplify
-        uses: ambientlight/amplify-cli-action@0.3.0
-        with:
-          amplify_command: configure
-          amplify_env: prod
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
 
-      - name: deploy
-        uses: ambientlight/amplify-cli-action@0.3.0
-        with:
-          amplify_command: publish
-          amplify_env: prod
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
+      - name: Update npm to the latest version
+        run: npm install -g npm@latest
+
+      - name: Deploy to amplify using amplify-cli
+        run: | 
+          npm install -g @aws-amplify/cli
+          cd /Game
+          amplify init --yes
+          amplify hosting add --yes
+          amplify push --yes
+    
+      # - name: configure amplify
+      #   uses: ambientlight/amplify-cli-action@0.3.0
+      #   with:
+      #     amplify_command: configure
+      #     amplify_env: prod
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: us-east-1
+
+      # - name: deploy
+      #   uses: ambientlight/amplify-cli-action@0.3.0
+      #   with:
+      #     amplify_command: publish
+      #     amplify_env: prod
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: us-east-1
           
       # discord
       - name: Notify on Discord
