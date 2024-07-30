@@ -73,23 +73,12 @@ jobs:
           --yes \
           --amplify "{\"envName\":\"dev\"}" \
           --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" 
-     
-      # - name: Initialize Amplify (if app does not exist)
-      #   if: steps.check_amplify_app.outputs.result == 'App does not exist'
-      #   run: |
-      #     amplify init \
-      #       --frontend "{\"frontend\":\"javascript\",\"framework\":\"none\",\"config\":{\"SourceDir\":\"src\",\"DistributionDir\":\"dist\",\"BuildCommand\":\"npm run-script build\",\"StartCommand\":\"npm run-script start\"}}" \
-      #       --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" \
-      #       --yes
-      #     amplify add hosting \
-      #       --type "amplify" \
-      #       --app-id $(cat app_id.txt) \
-      #       --env-name "production" \
-      #       --branch-name "production" \
-      #       --yes
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Checkout Amplify environment
+        run: amplify env checkout main # Change this to your desired branch
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Amplify push
         run: amplify push --yes
