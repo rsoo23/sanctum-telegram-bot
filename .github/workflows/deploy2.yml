@@ -53,7 +53,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: prod_build
-          path: .
       
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.3
@@ -64,7 +63,6 @@ jobs:
       - name: Deploy to amplify using amplify-cli
         run: | 
           npm install -g @aws-amplify/cli
-          cd /Game
           amplify init --yes
           amplify hosting add --yes
           amplify push --yes
