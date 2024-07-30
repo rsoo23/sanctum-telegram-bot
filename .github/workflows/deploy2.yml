@@ -63,15 +63,16 @@ jobs:
       - name: Deploy to amplify using amplify-cli
         run: | 
           npm install -g @aws-amplify/cli
-          chmod +x ./cicd_scripts/amplify_init.sh
-          ./cicd_scripts/amplify_init.sh
+          amplify init \
+            --frontend "{\"frontend\":\"javascript\",\"framework\":\"none\",\"config\":{\"SourceDir\":\"src\",\"DistributionDir\":\"dist\",\"BuildCommand\":\"npm run-script build\",\"StartCommand\":\"npm run-script start\"}}" \
+            --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" \
+            --yes
           amplify hosting add --yes
           amplify push --yes
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    
       # - name: configure amplify
       #   uses: ambientlight/amplify-cli-action@0.3.0
       #   with:
