@@ -71,7 +71,7 @@ jobs:
       - name: Pull Amplify environment
         run: amplify pull \
           --yes \
-          --amplify "{\"envName\":\"dev\"}" \
+          --amplify "{\"envName\":\"main\"}" \
           --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" 
 
       - name: Checkout Amplify environment
