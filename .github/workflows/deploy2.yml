@@ -68,6 +68,12 @@ jobs:
         run: | 
           npm install -g @aws-amplify/cli
 
+      - name: Pull Amplify environment
+        run: amplify pull \
+          --yes \
+          --amplify "{\"envName\":\"dev"}" \
+          --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" 
+     
       # - name: Initialize Amplify (if app does not exist)
       #   if: steps.check_amplify_app.outputs.result == 'App does not exist'
       #   run: |
