@@ -57,35 +57,35 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.3
 
-      - name: Update npm to the latest version
-        run: npm install -g npm@latest
+      # - name: Update npm to the latest version
+      #   run: npm install -g npm@latest
 
-      - name: Deploy to amplify using amplify-cli
-        run: | 
-          npm install -g @aws-amplify/cli
-          amplify init --yes
-          amplify hosting add --yes
-          amplify push --yes
+      # - name: Deploy to amplify using amplify-cli
+      #   run: | 
+      #     npm install -g @aws-amplify/cli
+      #     amplify init --yes
+      #     amplify hosting add --yes
+      #     amplify push --yes
     
-      # - name: configure amplify
-      #   uses: ambientlight/amplify-cli-action@0.3.0
-      #   with:
-      #     amplify_command: configure
-      #     amplify_env: prod
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: us-east-1
+      - name: configure amplify
+        uses: ambientlight/amplify-cli-action@0.3.0
+        with:
+          amplify_command: configure
+          amplify_env: prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
 
-      # - name: deploy
-      #   uses: ambientlight/amplify-cli-action@0.3.0
-      #   with:
-      #     amplify_command: publish
-      #     amplify_env: prod
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: us-east-1
+      - name: deploy
+        uses: ambientlight/amplify-cli-action@0.3.0
+        with:
+          amplify_command: publish
+          amplify_env: prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
           
       # discord
       - name: Notify on Discord
