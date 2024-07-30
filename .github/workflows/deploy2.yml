@@ -13,7 +13,7 @@ jobs:
 
     env:
       ENV: production
-      GA_ID: ${{ secrets.GA_ID }}
+      GA_ID_PRODUCTION: ${{ secrets.GA_ID_PRODUCTION }}
 
     steps:
       - name: Checkout Code
