@@ -63,10 +63,8 @@ jobs:
       - name: Deploy to amplify using amplify-cli
         run: | 
           npm install -g @aws-amplify/cli
-          amplify init --yes
-          amplify configure project \
-            --providers "{\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" \
-            --yes
+          chmod +x ./cicd_scripts/amplify_init.sh
+          ./cicd_scripts/amplify_init.sh
           amplify hosting add --yes
           amplify push --yes
         env:
