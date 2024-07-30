@@ -63,15 +63,43 @@ jobs:
       - name: Deploy to amplify using amplify-cli
         run: | 
           npm install -g @aws-amplify/cli
+                - name: Check for existing Amplify app
+        
+      - name: Check for existing amplify app
+        run: |
+          amplify list apps --region us-east-1 --query "apps[?name=='sanctumtelegrambot'].appId" --output text > app_id.txt
+          if [ -s app_id.txt ]; then
+            echo "App exists" > app_id.txt
+          else
+            echo "App does not exist" > app_id.txt
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Initialize Amplify (if app does not exist)
+        if: steps.check_amplify_app.outputs.result == 'App does not exist'
+        run: |
           amplify init \
             --frontend "{\"frontend\":\"javascript\",\"framework\":\"none\",\"config\":{\"SourceDir\":\"src\",\"DistributionDir\":\"dist\",\"BuildCommand\":\"npm run-script build\",\"StartCommand\":\"npm run-script start\"}}" \
             --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" \
             --yes
-          amplify push --yes
+          amplify add hosting \
+            --type "amplify" \
+            --app-id $(cat app_id.txt) \
+            --env-name "production" \
+            --branch-name "production" \
+            --yes
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          
+
+      - name: Amplify push
+        run: amplify push --yes
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
       # discord
       - name: Notify on Discord
         if: always()
