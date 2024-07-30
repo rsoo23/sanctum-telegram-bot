@@ -86,7 +86,7 @@ jobs:
   build_staging:
       runs-on: macos-latest
       if: github.ref == 'refs/heads/dev'
-  
+
       env:
         ENV: staging
         GA_ID_STAGING: ${{ secrets.GA_ID_STAGING }}
