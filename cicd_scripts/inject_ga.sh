@@ -5,12 +5,11 @@ FILE="Game/build-templates/web-mobile/index.ejs"
 
 # Check the environment variable
 if [ "$ENV" == "production" ]; then
-  # GA_ID=$GA_ID_PRODUCTION
-  sed -i '' "s/G-XXXXXXXXXX/$GA_ID/g" $FILE
+  sed -i '' "s/G-XXXXXXXXXX/$GA_ID_PRODUCTION/g" $FILE
+  echo "Injected Google Analytics ID ($GA_ID_PRODUCTION) into index.ejs"
 else
-  # GA_ID=$GA_ID_STAGING
-  sed -i '' "s/G-XXXXXXXXXX/$GA_ID/g" $FILE
+  sed -i '' "s/G-XXXXXXXXXX/$GA_ID_STAGING/g" $FILE
+  echo "Injected Google Analytics ID ($GA_ID_STAGING) into index.ejs"
 fi
 
 
-echo "Injected Google Analytics ID ($GA_ID) into index.ejs"
