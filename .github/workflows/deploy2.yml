@@ -37,9 +37,9 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-artifacts
-          path: ./Game/build-templates/web-mobile/index.ejs
-          error: "./Game/build-templates/web-mobile/index.ejs not found"
+          name: prod_build
+          path: ./Game
+          error: "Error uploading ./Game"
 
   deploy_prod_to_amplify:
     needs: build_prod
@@ -52,7 +52,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v2
         with:
-          name: build-artifacts
+          name: prod_build
           path: .
       
       - name: Setup Node.js environment
