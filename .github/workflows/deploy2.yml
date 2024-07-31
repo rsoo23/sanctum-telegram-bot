@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: prod_build
-          path: ./Game/build/*
+          path: ./Game/build/web-mobile/*
           error: "Error uploading build.zip"
 
       - name: Download build artifacts
