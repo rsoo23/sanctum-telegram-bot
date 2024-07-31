@@ -38,12 +38,17 @@ jobs:
         run: |
           zip -r build.zip ./Game/build/
 
-      # - name: Upload build artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: prod_build
-      #     path: ./Game/build/
-      #     error: "Error uploading build.zip"
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: prod_build
+          path: ./build.zip
+          error: "Error uploading build.zip"
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: prod_build
           
       - name: Notify on Discord
         if: always()
