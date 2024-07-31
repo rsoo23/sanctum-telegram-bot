@@ -68,23 +68,37 @@ jobs:
         run: | 
           npm install -g @aws-amplify/cli
 
-      - name: Pull Amplify environment
-        run: amplify pull \
-          --yes \
-          --amplify "{\"envName\":\"main\"}" \
-          --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" 
+            - name: Aws Amplify Deployer Action
+  
+      - name: Amplify deployment 
+        uses: luisgreen/amplify_deployment@v0.0.1
+        with:
+          # Amplify Application ID
+          appId: d9awhrcy4yrc0
+          # Amplify Application branch to deploy
+          branchName: staging
+          # Path where the artifact is located to be deployed
+          artifactPath: /build.zip
+          # Region of the Amplify Application
+          region: us-east-1
+  
+      # - name: Pull Amplify environment
+      #   run: amplify pull \
+      #     --yes \
+      #     --amplify "{\"envName\":\"main\"}" \
+      #     --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"profileName\":\"default\",\"accessKeyId\":\"${{ secrets.AWS_ACCESS_KEY_ID }}\",\"secretAccessKey\":\"${{ secrets.AWS_SECRET_ACCESS_KEY }}\",\"region\":\"us-east-1\"}}" 
 
-      - name: Checkout Amplify environment
-        run: amplify env checkout main # Change this to your desired branch
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Checkout Amplify environment
+      #   run: amplify env checkout main # Change this to your desired branch
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Amplify push
-        run: amplify push --yes
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Amplify push
+      #   run: amplify push --yes
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   
       # discord
       - name: Notify on Discord
