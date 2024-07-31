@@ -72,13 +72,13 @@ jobs:
         uses: luisgreen/amplify_deployment@v0.0.1
         with:
           # Amplify Application ID
-          appId: d9awhrcy4yrc0
+          appId: 'd9awhrcy4yrc0'
           # Amplify Application branch to deploy
-          branchName: staging
+          branchName: 'staging'
           # Path where the artifact is located to be deployed
-          artifactPath: /build.zip
+          artifactPath: './build.zip'
           # Region of the Amplify Application
-          region: us-east-1
+          region: 'us-east-1'
   
       # - name: Pull Amplify environment
       #   run: amplify pull \
