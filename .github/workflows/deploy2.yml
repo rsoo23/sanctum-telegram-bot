@@ -67,8 +67,6 @@ jobs:
       - name: Deploy to amplify using amplify-cli
         run: | 
           npm install -g @aws-amplify/cli
-
-            - name: Aws Amplify Deployer Action
   
       - name: Amplify deployment 
         uses: luisgreen/amplify_deployment@v0.0.1
